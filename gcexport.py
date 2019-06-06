@@ -439,7 +439,7 @@ while total_downloaded < total_to_download:
 			print hhmmssFromSeconds(a['duration']) + ',',
 		else:
 			print '??:??:??,',
-		if 'distance' in a:
+		if 'distance' in a and a['distance']:
 			print "{0:.3f}".format(a['distance']/1000)
 		else:
 			print '0.000 km'

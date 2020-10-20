@@ -51,6 +51,11 @@ optional arguments:
         your Garmin Connect password
         otherwise, you will be prompted
     
+    -s [INDEX], --start [INDEX]
+    
+        start index of the activity to fetch
+        default: 0
+    
     -c [COUNT], --count [COUNT]
     
         number of recent activities to download, limit is 1000

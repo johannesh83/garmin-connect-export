@@ -43,6 +43,9 @@ parser.add_argument('--version', help="print version and exit", action="store_tr
 parser.add_argument('--username', help="your Garmin Connect username (otherwise, you will be prompted)", nargs='?')
 parser.add_argument('--password', help="your Garmin Connect password (otherwise, you will be prompted)", nargs='?')
 
+parser.add_argument('-s', '--start', nargs='?', default="0",
+	help="Start index for downloading")
+
 parser.add_argument('-c', '--count', nargs='?', default="1",
 	help="number of recent activities to download, or 'all' (default: 1)")
 
@@ -340,6 +343,8 @@ Sample count\n')
 # Max. elevation (m),\
 # Activity parent,\
 
+download_start_index = (int)(args.start)
+download_index = download_start_index
 if args.count == 'all':
 	# If the user wants to download all activities, first download one,
 	# then the result of that request will tell us how many are available
@@ -360,20 +365,21 @@ if args.count == 'all':
 	total_to_download = int(json_results['results']['totalFound'])
 else:
 	total_to_download = int(args.count)
-total_downloaded = 0
+
+download_stop_index = total_to_download + download_start_index
 
 device_dict = dict()
 
 # This while loop will download data from the server in multiple chunks, if necessary.
-while total_downloaded < total_to_download:
+while download_index < download_stop_index:
 	# Maximum chunk size 'limit_maximum' ... 400 return status if over maximum.  So download maximum or whatever remains if less than maximum.
 	# As of 2018-03-06 I get return status 500 if over maximum
-	if total_to_download - total_downloaded > limit_maximum:
+	if download_stop_index - download_index > limit_maximum:
 		num_to_download = limit_maximum
 	else:
-		num_to_download = total_to_download - total_downloaded
+		num_to_download = download_stop_index - download_index
 
-	search_params = {'start': total_downloaded, 'limit': num_to_download}
+	search_params = {'start': download_index, 'limit': num_to_download}
 	# Query Garmin Connect
 	print "Making activity request ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	print url_gc_search + urlencode(search_params)
@@ -394,10 +400,12 @@ while total_downloaded < total_to_download:
 	activities = json_results
 
 	# Process each activity.
+        printed_index = download_index
 	for a in activities:
 		# Display which entry we're working on.
-		print 'Garmin Connect activity: [' + str(a['activityId']) + ']',
+		print 'Garmin Connect activity #' + str(printed_index) + ': [' + str(a['activityId']) + ']',
 		print a['activityName']
+                printed_index += 1
 
 		# Retrieve also the detail data from the activity (the one displayed on
 		# the https://connect.garmin.com/modern/activity/xxx page), because some
@@ -440,7 +448,11 @@ while total_downloaded < total_to_download:
 		else:
 			print '??:??:??,',
 		if 'distance' in a:
-			print "{0:.3f}".format(a['distance']/1000)
+			dist = a['distance']
+                        if dist is not None:
+				print "{0:.3f}".format(a['distance']/1000)
+			else:
+				print '0.000 km'
 		else:
 			print '0.000 km'
 
@@ -621,7 +633,7 @@ while total_downloaded < total_to_download:
 		else:
 			# TODO: Consider validating other formats.
 			print 'Done.'
-	total_downloaded += num_to_download
+	download_index += num_to_download
 # End while loop for multiple chunks.
 
 csv_file.close()

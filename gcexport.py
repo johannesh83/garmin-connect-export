@@ -483,6 +483,7 @@ while download_index < download_stop_index:
 		elif args.format == 'original':
 			data_filename = args.directory + '/activity_' + str(a['activityId']) + '.zip'
 			fit_filename = args.directory + '/' + str(a['activityId']) + '.fit'
+			fit_filename_alt = args.directory + '/' + str(a['activityId']) + '_ACTIVITY.fit'
 			download_url = url_gc_original_activity + str(a['activityId'])
 			file_mode = 'wb'
 		elif args.format == 'json':
@@ -494,7 +495,7 @@ while download_index < download_stop_index:
 		if isfile(data_filename):
 			print '\tData file already exists; skipping...'
 			continue
-		if args.format == 'original' and isfile(fit_filename):  # Regardless of unzip setting, don't redownload if the ZIP or FIT file exists.
+		if args.format == 'original' and ( isfile(fit_filename) or isfile(fit_filename_alt) ):  # Regardless of unzip setting, don't redownload if the ZIP or FIT file exists.
 			print '\tFIT data file already exists; skipping...'
 			continue
 

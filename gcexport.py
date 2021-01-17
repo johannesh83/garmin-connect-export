@@ -447,12 +447,8 @@ while download_index < download_stop_index:
 			print hhmmssFromSeconds(a['duration']) + ',',
 		else:
 			print '??:??:??,',
-		if 'distance' in a:
-			dist = a['distance']
-                        if dist is not None:
-				print "{0:.3f}".format(a['distance']/1000)
-			else:
-				print '0.000 km'
+		if 'distance' in a and a['distance']:
+			print "{0:.3f}".format(a['distance']/1000)
 		else:
 			print '0.000 km'
 

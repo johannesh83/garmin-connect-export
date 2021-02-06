@@ -108,7 +108,7 @@ You are a runner, cyclist or triathlete? You love Golden Cheetah? You track your
 
 But now, you want to archive, cloud-backup and import automatically into Golden Cheetah? There are tons of alternatives and workarounds. Here is mine.
 
-[Download, archive, cloud-backup and auto-import your activities.](https://johannesheinrich.de/golden-cheetah-garmin-connect-script/)
+[Download, archive, cloud-backup and auto-import your activities.](https://www.johannesheinrich.de/posts/golden-cheetah-garmin-connect-script/)
 
 Thank You
 ---------

@@ -72,6 +72,7 @@ def http_req(url, post=None, headers={}):
 	# request.add_header('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/1337 Safari/537.36')  # Tell Garmin we're some supported browser.
 	request.add_header('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2816.0 Safari/537.36')  # Tell Garmin we're some supported browser.
 	request.add_header('origin', 'https://sso.garmin.com') #this new header is needed after recent changes made by Garmin
+	request.add_header('NK', 'NT') #this new header is needed after recent changes made by Garmin to prevent HTTP Error 402: Payment Required
 	for header_key, header_value in headers.iteritems():
 		request.add_header(header_key, header_value)
 	if post:

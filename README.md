@@ -30,6 +30,12 @@ Requirements
 pip3 install garminconnect
 ```
 
+or
+
+```bash
+pip3 install -f requirements.txt
+```
+
 Setup
 -----
 1. Create a `.env` file in the same directory as the script:
